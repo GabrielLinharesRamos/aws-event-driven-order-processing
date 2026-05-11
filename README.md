@@ -1,5 +1,16 @@
 # Event-driven (readme)
 
+## Planejamento
+
+O projeto será desenvolvido de forma incremental:
+
+- Fase 0 → Fundamentos (arquitetura síncrona)
+- Fase 1 → Infraestrutura como código (Terraform)
+- Fase 2 → Introdução ao modelo assíncrono (event-driven)
+- Fase 3 → Resiliência e tolerância a falhas
+- Fase 4 → Observabilidade e maturidade de produção
+- Fase 5 → Refinamento e nível portfólio
+
 # Fase 0 - Protótipo (Console / Fundamentos)
 
 ---
@@ -56,3 +67,51 @@ marquei **raw →** selecionei **JSON →** e segui esse modelo para testes:
 ---
 
 ### Dia 3:
+
+Estudei um pouco sobre o Terraform e como ele deve ser utilizado, além de definir a estrutura do meu projeto e a arquitetura das pastas com base na documentação disponível no site:
+
+[https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-create](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-create)
+
+### Dia 4:
+
+Continuei meus estudos que havia começado anteriormente a respeito do Terraform. Entretanto, dessa vez utilizei uma documentação diferente um pouco mais voltada para lançar recursos dentro da AWS, visto que isso é meu atual objetivo no momento, link da documentação:
+
+[https://registry.terraform.io/providers/hashicorp/aws/latest/docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+
+Após estudar um pouco, resolvi lançar o primeiro recurso do projeto com Terraform. Copiei o exemplo da documentação e, com base no protótipo feito no console, fiz as adaptações necessárias para o meu projeto. Em seguida, parti para o próximo recurso: o Lambda. Criei uma subpasta no diretório principal chamada Lambda, onde pretendo guardar as funções do projeto em subpastas, organizadas com arquivos index.py.
+
+### Dia 5:
+
+Continuei o desenvolvimento da infraestrutura do projeto utilizando Terraform. Durante essa etapa, aprofundei meus conhecimentos em HCL para organização da infraestrutura como código, substituindo abordagens baseadas em JSON tradicional. Também implementei o provisionamento de recursos AWS como IAM Roles, IAM Policies e funções Lambda, além de automatizar etapas do deploy, como o empacotamento do código das funções utilizando recursos nativos do Terraform.
+
+### Dia 6:
+
+Terminei de montar minha função Lambda, as roles e as policies no Terraform e agora vou migrar para o API Gateway. No entanto, como ainda não estou muito familiarizado com a arquitetura do Terraform e tive certa dificuldade, decidi montar o seguinte diagrama:
+
+event_driven_orders
+
+↓
+
+dynamoDB_policy_json
+
+↓
+
+dynamoDB_policy
+
+↓
+
+lambda_dynamodb_attachment
+
+↑
+
+iam_lambda ← assume_role
+
+↓
+
+event_driven_create_order
+
+↑
+
+package
+
+### Dia 7: (consertar o diagrama acima, começar o API gateway e subir para o git)
