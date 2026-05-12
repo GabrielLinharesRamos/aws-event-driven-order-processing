@@ -30,7 +30,27 @@ data "aws_iam_policy_document" "assume_role" {
 
     actions = ["sts:AssumeRole"]
   }
+}
 
+# Criação do IAM role utilizando o Json assumeRole
+resource "aws_iam_role" "iam_lambda" {
+  name               = "lambda_execution_role"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+}
+
+# Criação do json que especifica a policy do que o lambda pode fazer
+data "aws_iam_policy_document" "lambda_permissions_policy_json" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "dynamodb:PutItem"
+    ]
+
+    resources = [
+      aws_dynamodb_table.event_driven_orders.arn,
+    ]
+  }
   statement {
     effect = "Allow"
 
@@ -44,40 +64,18 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
-# Criação do IAM role utilizando o Json assumeRole
-resource "aws_iam_role" "iam_lambda" {
-  name               = "lambda_execution_role"
-  assume_role_policy = data.aws_iam_policy_document.assume_role.json
-}
-
-
-# Criação do json que especifica a policy do dynamoDB
-data "aws_iam_policy_document" "dynamoDB_policy_json" {
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "dynamodb:PutItem"
-    ]
-
-    resources = [
-      aws_dynamodb_table.event_driven_orders.arn,
-    ]
-  }
-}
-
-#criação da policy do dynamoDB
-resource "aws_iam_policy" "dynamoDB_policy" {
+#criação da permission policy do lambda
+resource "aws_iam_policy" "lambda_permissions_policy" {
   name        = "event_driven_lambda_dynamodb_policy"
   description = "Policy for Lambda write orders into DynamoDB"
 
-  policy      = data.aws_iam_policy_document.dynamoDB_policy_json.json
+  policy      = data.aws_iam_policy_document.lambda_permissions_policy_json.json
 }
 
-#conexão da policy na role
+#conexão da permission policy na role
 resource "aws_iam_role_policy_attachment" "lambda_dynamodb_attachment" {
   role        = aws_iam_role.iam_lambda.name
-  policy_arn  = aws_iam_policy.dynamoDB_policy.arn
+  policy_arn  = aws_iam_policy.lambda_permissions_policy.arn
 }
 
 # Zipa a função do codigo

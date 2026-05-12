@@ -66,6 +66,10 @@ marquei **raw →** selecionei **JSON →** e segui esse modelo para testes:
 
 ---
 
+### Diagrama Fase 1:
+
+![phase_1_diagram.drawio.svg](./diagrams/phase_1_diagram.drawio.svg)
+
 ### Dia 3:
 
 Estudei um pouco sobre o Terraform e como ele deve ser utilizado, além de definir a estrutura do meu projeto e a arquitetura das pastas com base na documentação disponível no site:
@@ -86,32 +90,8 @@ Continuei o desenvolvimento da infraestrutura do projeto utilizando Terraform. D
 
 ### Dia 6:
 
-Terminei de montar minha função Lambda, as roles e as policies no Terraform e agora vou migrar para o API Gateway. No entanto, como ainda não estou muito familiarizado com a arquitetura do Terraform e tive certa dificuldade, decidi montar o seguinte diagrama:
+Terminei de montar minha função Lambda, as roles e as policies no Terraform e agora vou migrar para o API Gateway. No entanto, como ainda não estou muito familiarizado com a arquitetura do Terraform e tive certa dificuldade, decidi montar o seguinte diagrama mostrando o fluxo de criação do Terraform:
 
-event_driven_orders
+![event_driven_diagram.drawio.svg](./diagrams/event_driven_diagram.drawio.svg)
 
-↓
-
-dynamoDB_policy_json
-
-↓
-
-dynamoDB_policy
-
-↓
-
-lambda_dynamodb_attachment
-
-↑
-
-iam_lambda ← assume_role
-
-↓
-
-event_driven_create_order
-
-↑
-
-package
-
-### Dia 7: (consertar o diagrama acima, começar o API gateway e subir para o git)
+### Dia 7: (começar o API gateway)
