@@ -1,5 +1,5 @@
 # Terraform
-.terraform/
+**/.terraform/*
 *.tfstate
 *.tfstate.*
 crash.log
@@ -16,3 +16,6 @@ terraform.rc
 .DS_Store
 .vscode/
 .idea/
+
+# lambda compactado
+*.zip
