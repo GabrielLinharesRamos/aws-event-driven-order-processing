@@ -6,7 +6,7 @@ O projeto será desenvolvido de forma incremental:
 
 - Fase 0 → Fundamentos (arquitetura síncrona)
 - Fase 1 → Infraestrutura como código (Terraform)
-- Fase 2 → Introdução ao modelo assíncrono (event-driven)
+- Fase 2 → modelo assíncrono (event-driven)
 - Fase 3 → Resiliência e tolerância a falhas
 - Fase 4 → Observabilidade e maturidade de produção
 - Fase 5 → Refinamento e nível portfólio
@@ -68,7 +68,7 @@ marquei **raw →** selecionei **JSON →** e segui esse modelo para testes:
 
 ### Diagrama Fase 1:
 
-![phase_1_diagram.drawio.svg](./diagrams/phase_1_diagram.drawio.svg)
+![phase_1_diagram.drawio.svg](phase_1_diagram.drawio.svg)
 
 ### Dia 3:
 
@@ -92,6 +92,16 @@ Continuei o desenvolvimento da infraestrutura do projeto utilizando Terraform. D
 
 Terminei de montar minha função Lambda, as roles e as policies no Terraform e agora vou migrar para o API Gateway. No entanto, como ainda não estou muito familiarizado com a arquitetura do Terraform e tive certa dificuldade, decidi montar o seguinte diagrama mostrando o fluxo de criação do Terraform:
 
-![event_driven_diagram.drawio.svg](./diagrams/event_driven_diagram.drawio.svg)
+![event_driven_diagram.drawio.svg](event_driven_diagram.drawio.svg)
 
-### Dia 7: (começar o API gateway)
+### Dia 7:
+
+Comecei e finalizei a construção do API Gateway no Terraform. Para isso, tive que adicionar cinco blocos ao projeto: event_driven_api_gateway (a própria API criada pelo Terraform), event_driven_api_integration (responsável por integrar a API ao Lambda), event_driven_api_routes (onde as rotas são criadas), event_driven_api_stage (responsável pela criação do stage da API) e lambda_permission (que concede permissões para que a API chame o Lambda).
+
+Optei por criar o API Gateway com a integração do tipo AWS_PROXY (já que estamos trabalhando com lambda e não EC2) e implementei a rota com o método POST, já que ela é responsável por cadastrar novos pedidos no sistema. Com isso, a Fase 1 do projeto foi concluída, entregando um fluxo serverless funcional entre API Gateway, Lambda e DynamoDB.
+
+# Fase 2 - modelo assíncrono (event-driven)
+
+---
+
+### Dia 8:
