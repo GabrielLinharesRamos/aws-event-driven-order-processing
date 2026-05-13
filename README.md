@@ -105,3 +105,7 @@ Optei por criar o API Gateway com a integração do tipo AWS_PROXY (já que esta
 ---
 
 ### Dia 8:
+
+Como eu havia mencionado no dia 6, estava tendo muita dificuldade para trabalhar no meu projeto em Terraform devido à complexidade que ele vinha atingindo. Então, resolvi dividir meu arquivo main.tf em quatro arquivos menores, para melhorar a organização e facilitar o entendimento de onde está cada recurso do projeto. Para isso, criei os seguintes arquivos, com seus respectivos blocos HCL: lambda.tf, api_gateway.tf, dynamoDB.tf e iam.tf.
+
+### Dia 9: (SQS)
