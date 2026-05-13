@@ -68,7 +68,7 @@ marquei **raw →** selecionei **JSON →** e segui esse modelo para testes:
 
 ### Diagrama Fase 1:
 
-![phase_1_diagram.drawio.svg](phase_1_diagram.drawio.svg)
+![phase_1_diagram.drawio.svg](/diagrams/phase_1_diagram.drawio.svg)
 
 ### Dia 3:
 
@@ -92,7 +92,7 @@ Continuei o desenvolvimento da infraestrutura do projeto utilizando Terraform. D
 
 Terminei de montar minha função Lambda, as roles e as policies no Terraform e agora vou migrar para o API Gateway. No entanto, como ainda não estou muito familiarizado com a arquitetura do Terraform e tive certa dificuldade, decidi montar o seguinte diagrama mostrando o fluxo de criação do Terraform:
 
-![event_driven_diagram.drawio.svg](event_driven_diagram.drawio.svg)
+![event_driven_diagram.drawio.svg](/diagrams/event_driven_diagram.drawio.svg)
 
 ### Dia 7:
 
