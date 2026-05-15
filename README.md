@@ -108,4 +108,14 @@ Optei por criar o API Gateway com a integração do tipo AWS_PROXY (já que esta
 
 Como eu havia mencionado no dia 6, estava tendo muita dificuldade para trabalhar no meu projeto em Terraform devido à complexidade que ele vinha atingindo. Então, resolvi dividir meu arquivo main.tf em quatro arquivos menores, para melhorar a organização e facilitar o entendimento de onde está cada recurso do projeto. Para isso, criei os seguintes arquivos, com seus respectivos blocos HCL: lambda.tf, api_gateway.tf, dynamoDB.tf e iam.tf.
 
-### Dia 9: (SQS)
+### Dia 9:
+
+Comecei o processo de desacoplamento da arquitetura por meio da adição de uma fila Amazon SQS (atualmente utilizando uma Standard Queue). A escolha inicial pela Standard Queue foi feita visando simplicidade e maior escalabilidade, embora exista a possibilidade futura de migração para FIFO caso surja a necessidade de garantia de ordenação ou deduplicação de mensagens.
+
+Além disso, a função Lambda responsável anteriormente por persistir os dados diretamente no DynamoDB começou a ser transformada em uma Producer Lambda, passando a publicar eventos na fila ao invés de realizar o processamento diretamente.
+
+Como próximo passo, será criada uma Consumer Lambda responsável por consumir as mensagens da fila, processá-las e persisti-las no DynamoDB.
+
+Também foram adicionadas as permissões IAM necessárias para permitir que a Lambda publique mensagens no SQS.
+
+### Dia 10: (Criar a lambda consumer e Tirar credenciais hardcoded)
