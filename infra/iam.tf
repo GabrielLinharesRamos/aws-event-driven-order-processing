@@ -1,4 +1,4 @@
-# Criação do json que especifica as policies do lambda
+# Criação do json que especifica a trust policy do lambda
 data "aws_iam_policy_document" "assume_role" {
   statement {
     effect = "Allow"
@@ -31,6 +31,8 @@ data "aws_iam_policy_document" "lambda_permissions_policy_json" {
       aws_dynamodb_table.event_driven_orders.arn,
     ]
   }
+
+
   statement {
     effect = "Allow"
 
@@ -41,6 +43,19 @@ data "aws_iam_policy_document" "lambda_permissions_policy_json" {
     ]
 
     resources = ["*"]
+  }
+
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "sqs:SendMessage"
+    ]
+
+    resources = [
+      aws_sqs_queue.event_driven_queue_lambda.arn,
+      ]
   }
 }
 
@@ -67,3 +82,4 @@ resource "aws_lambda_permission" "lambda_permission" {
 
   source_arn = "${aws_apigatewayv2_api.event_driven_api_gateway.execution_arn}/dev/POST/orders"
 }
+
