@@ -1,6 +1,6 @@
 # Event-driven (readme)
 
-## Planejamento
+## DEVLOG
 
 O projeto será desenvolvido de forma incremental:
 
