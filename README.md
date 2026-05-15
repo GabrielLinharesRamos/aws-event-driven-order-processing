@@ -108,6 +108,17 @@ Optei por criar o API Gateway com a integração do tipo AWS_PROXY (já que esta
 
 Como eu havia mencionado no dia 6, estava tendo muita dificuldade para trabalhar no meu projeto em Terraform devido à complexidade que ele vinha atingindo. Então, resolvi dividir meu arquivo main.tf em quatro arquivos menores, para melhorar a organização e facilitar o entendimento de onde está cada recurso do projeto. Para isso, criei os seguintes arquivos, com seus respectivos blocos HCL: lambda.tf, api_gateway.tf, dynamoDB.tf e iam.tf.
 
+Conforme o projeto evoluiu, a complexidade da infraestrutura também aumentou, tornando o arquivo `main.tf` cada vez mais difícil de manter e navegar. Para melhorar a organização e facilitar a manutenção da infraestrutura, a configuração Terraform foi dividida em múltiplos arquivos separados por responsabilidade.
+
+Foram criados os seguintes arquivos:
+
+- `lambda.tf`
+- `api_gateway.tf`
+- `dynamodb.tf`
+- `iam.tf`
+
+Cada arquivo passou a concentrar recursos relacionados ao seu respectivo domínio, melhorando a legibilidade da infraestrutura e tornando futuras evoluções mais simples.
+
 ### Dia 9:
 
 Comecei o processo de desacoplamento da arquitetura por meio da adição de uma fila Amazon SQS (atualmente utilizando uma Standard Queue). A escolha inicial pela Standard Queue foi feita visando simplicidade e maior escalabilidade, embora exista a possibilidade futura de migração para FIFO caso surja a necessidade de garantia de ordenação ou deduplicação de mensagens.
