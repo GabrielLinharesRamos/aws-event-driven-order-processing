@@ -42,7 +42,7 @@ event-driven-project/
 │
 ├── lambda/
 │   │
-│   ├── event-driven-create-order/
+│   └── event-driven-create-order/
 │       └── index.py
 │
 └── README.md

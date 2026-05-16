@@ -5,7 +5,7 @@ data "archive_file" "package" {
   output_path = "${path.module}/../lambda/event-driven-create-order/function.zip"
 }
 
-# Função lambda
+# Função lambda producer
 resource "aws_lambda_function" "event_driven_create_order" {
   filename          = data.archive_file.package.output_path
   function_name     = "event-driven-create-order"

@@ -7,79 +7,20 @@ from datetime import datetime
 
 client = boto3.client('sqs')
 
-event_payload={
-    'id': str(uuid.uuid4()),
-    'payload': json.loads(event["body"]),
-    'eventType': 'OrderCreated',
-    'timestamp': datetime.utcnow().isoformat()
-}
+def lambda_handler(event,context):
+    event_payload={
+        'id': str(uuid.uuid4()),
+        'payload': json.loads(event["body"]),
+        'eventType': 'OrderCreated',
+        'timestamp': datetime.utcnow().isoformat()
+    }
 
-event_payload = json.dumps(event_payload)
+    event_payload_serialized = json.dumps(event_payload)
 
-response = client.send_message(
-    QueueUrl='string',
-    MessageBody=event_payload,
-    DelaySeconds=123,
-    MessageAttributes={
-        'string': {
-            'StringValue': 'string',
-            'BinaryValue': b'bytes',
-            'StringListValues': [
-                'string',
-            ],
-            'BinaryListValues': [
-                b'bytes',
-            ],
-            'DataType': 'string'
-        }
-    },
-    MessageSystemAttributes={
-        'string': {
-            'StringValue': 'string',
-            'BinaryValue': b'bytes',
-            'StringListValues': [
-                'string',
-            ],
-            'BinaryListValues': [
-                b'bytes',
-            ],
-            'DataType': 'string'
-        }
-    },
-)
-
-
-# logica para salvar no dynamoDB
-
-dynamo = boto3.resource('dynamodb')
-
-table = dynamo.Table('event-driven-orders')
-
-def lambda_handler(event, context):
-    try:
-        table.put_item(
-            Item={
-                'id': str(uuid.uuid4()),
-                'items': json.loads(event["body"]),
-                'status': 'PENDING',
-                'createdAt': datetime.utcnow().isoformat()
-            }
-        )
-
-        return {
-            'statusCode': 201,
-            'body': json.dumps('order created')
-        }
-
-    except Exception as e:
-        print(f"erro: {str(e)}")
-
-        return {
-            "statusCode": 500,
-            "body": json.dumps({
-                "message": "Internal server error"
-            })
-        }
+    response = client.send_message(
+        QueueUrl='string',
+        MessageBody=event_payload_serialized,
+    )
 
 
 
