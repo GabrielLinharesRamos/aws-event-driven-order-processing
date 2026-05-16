@@ -1,4 +1,52 @@
-# Event-driven (readme)
+# Event-driven
+
+Um sistema de processamento de pedidos orientado a eventos construído com AWS Lambda, Terraform, DynamoDB e API Gateway. Atualmente evoluindo de uma arquitetura síncrona para um sistema resiliente orientado a eventos, com SQS/DLQ, idempotência e observabilidade com CloudWatch.
+
+# Arquitetura
+
+---
+
+![phase_1_diagram.drawio.svg](/diagrams/phase_1_diagram.drawio.svg)
+
+# Tecnologias utilizadas
+
+---
+
+- Terraform
+- AWS Lambda
+- SQS queue
+- API Gateway
+- DynamoDB
+- Python
+
+# Estrutura do Projeto
+
+---
+
+```
+event-driven-project/
+│
+├── diagrams/
+│ 
+├── infra/
+│   │
+│   ├── api_gateway.tf      → configuração do API Gateway
+│   ├── dynamodb.tf         → criação da tabela DynamoDB
+│   ├── iam.tf              → roles e permissões IAM
+│   ├── lambda.tf           → definição das funções Lambda
+│   ├── outputs.tf
+│   ├── provider.tf         → configura o provider da AWS
+|   ├── sqs.tf              → configuração do SQS
+|   ├── variables.tf        → declaração de variáveis reutilizáveis
+|   └── versions.tf         → especificações de versões compativeis do projeto
+│
+├── lambda/
+│   │
+│   ├── event-driven-create-order/
+│       └── index.py
+│
+└── README.md
+```
 
 ## DEVLOG
 
