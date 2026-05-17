@@ -179,4 +179,12 @@ Como próximo passo, será criada uma Consumer Lambda responsável por consumir 
 
 Também foram adicionadas as permissões IAM necessárias para permitir que a Lambda publique mensagens no SQS.
 
-### Dia 10: (Criar a lambda consumer e Tirar credenciais hardcoded)
+### Dia 10: (Criar a lambda consumer e Tirar credenciais hardcoded, alterar o valor do package no diagrama do dia 6)
+
+Realizei melhorias na documentação do projeto, adicionando novas seções ao README, como arquitetura da solução, tecnologias utilizadas e estrutura de diretórios, com o objetivo de tornar a evolução do sistema mais clara e organizada.
+
+Além disso, finalizei a transição da função principal para o modelo de **Lambda Producer**, desacoplando a persistência no banco do fluxo de entrada da aplicação. Durante esse processo, apliquei o princípio do menor privilégio (*Least Privilege*), removendo da Producer as permissões de escrita no DynamoDB.
+
+Também refatorei os recursos de IAM no Terraform para uma nomenclatura mais explícita e escalável, adicionando o prefixo `lambda_producer` aos componentes relacionados à função Producer.
+
+Por fim, iniciei a construção da função **Consumer**, incluindo sua estrutura inicial de código e a configuração completa do IAM responsável pelas permissões de consumo da fila SQS e persistência no DynamoDB.
