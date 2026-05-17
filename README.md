@@ -41,9 +41,11 @@ event-driven-project/
 |   └── versions.tf         → especificações de versões compativeis do projeto
 │
 ├── lambda/
+│   ├── event-driven-create-order/
+│   │   └── index.py
 │   │
-│   └── event-driven-create-order/
-│       └── index.py
+│   └── event-driven-process-order/
+|       └── index.py
 │
 └── README.md
 ```
