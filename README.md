@@ -154,6 +154,12 @@ Optei por criar o API Gateway com a integração do tipo AWS_PROXY (já que esta
 
 ---
 
+### Diagrama Fase 2:
+
+![phase_2_diagram.drawio.svg](/diagrams/phase_2_diagram.drawio.svg)
+
+---
+
 ### Dia 8:
 
 Como eu havia mencionado no dia 6, estava tendo muita dificuldade para trabalhar no meu projeto em Terraform devido à complexidade que ele vinha atingindo. Então, resolvi dividir meu arquivo main.tf em quatro arquivos menores, para melhorar a organização e facilitar o entendimento de onde está cada recurso do projeto. Para isso, criei os seguintes arquivos, com seus respectivos blocos HCL: lambda.tf, api_gateway.tf, dynamoDB.tf e iam.tf.
@@ -188,3 +194,17 @@ Além disso, finalizei a transição da função principal para o modelo de **La
 Também refatorei os recursos de IAM no Terraform para uma nomenclatura mais explícita e escalável, adicionando o prefixo `lambda_producer` aos componentes relacionados à função Producer.
 
 Por fim, iniciei a construção da função **Consumer**, incluindo sua estrutura inicial de código e a configuração completa do IAM responsável pelas permissões de consumo da fila SQS e persistência no DynamoDB.
+
+### Dia 11:
+
+finalizei o desenvolvimento da função **Consumer**, concluindo oficialmente a **Fase 2** do projeto, focada na introdução da arquitetura **event-driven**.
+
+Além da implementação da função, também aprofundei meus estudos sobre o problema de valores **hardcoded** em infraestrutura como código. Como parte dessa melhoria, iniciei o processo de refatoração dos blocos Terraform, centralizando configurações em um arquivo `variables.tf` para tornar a infraestrutura mais reutilizável, organizada e fácil de manter.
+
+Também será adicionado abaixo um diagrama representando o fluxo completo de criação e consumo de eventos desta fase do projeto.
+
+# Fase 3 - Resiliência e tolerância a falhas
+
+---
+
+### Dia 12:(Tirar credenciais hardcoded, alterar o valor do package no diagrama do dia 6)
