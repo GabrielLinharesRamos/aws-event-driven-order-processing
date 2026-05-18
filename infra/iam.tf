@@ -23,7 +23,7 @@ resource "aws_iam_role" "iam_lambda_producer" {
 }
 
 # Criação do json que especifica a policy do que o lambda_producer pode fazer
-data "aws_iam_policy_document" "lambda_permissions_policy_json" {
+data "aws_iam_policy_document" "lambda_producer_permissions_policy_json" {
 
   statement {
     effect = "Allow"
@@ -52,20 +52,20 @@ data "aws_iam_policy_document" "lambda_permissions_policy_json" {
 }
 
 #criação da permission policy do lambda_producer
-resource "aws_iam_policy" "lambda_permissions_policy" {
-  name        = "event_driven_lambda_dynamodb_policy"
+resource "aws_iam_policy" "lambda_producer_permissions_policy" {
+  name        = "event_driven_lambda_producer_policy"
 
-  policy      = data.aws_iam_policy_document.lambda_permissions_policy_json.json
+  policy      = data.aws_iam_policy_document.lambda_producer_permissions_policy_json.json
 }
 
 #conexão da permission policy na role
-resource "aws_iam_role_policy_attachment" "lambda_dynamodb_attachment" {
-  role        = aws_iam_role.iam_lambda.name
-  policy_arn  = aws_iam_policy.lambda_permissions_policy.arn
+resource "aws_iam_role_policy_attachment" "lambda_producer_attachment" {
+  role        = aws_iam_role.iam_lambda_producer.name
+  policy_arn  = aws_iam_policy.lambda_producer_permissions_policy.arn
 }
 
 # permissão para o API Gateway chamar o lambda
-resource "aws_lambda_permission" "lambda_permission" {
+resource "aws_lambda_permission" "lambda_producer_permission" {
   statement_id  = "AllowMyDemoAPIInvoke"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.event_driven_create_order.arn
@@ -128,13 +128,13 @@ data "aws_iam_policy_document" "lambda_consumer_permissions_policy_json" {
 
 #criação da permission policy do lambda_consumer
 resource "aws_iam_policy" "lambda_consumer_permissions_policy" {
-  name        = "event_driven_lambda_dynamodb_policy"
+  name        = "event_driven_lambda_consumer_policy"
 
   policy      = data.aws_iam_policy_document.lambda_consumer_permissions_policy_json.json
 }
 
 #conexão da permission policy na role
-resource "aws_iam_role_policy_attachment" "lambda_consumer_dynamodb_attachment" {
+resource "aws_iam_role_policy_attachment" "lambda_consumer_attachment" {
   role        = aws_iam_role.iam_lambda_consumer.name
   policy_arn  = aws_iam_policy.lambda_consumer_permissions_policy.arn
 }

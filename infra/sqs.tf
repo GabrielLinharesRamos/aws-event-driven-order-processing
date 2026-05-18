@@ -11,3 +11,9 @@ resource "aws_sqs_queue" "event_driven_queue_lambda" {
     Project     = "event-driven"
   }
 }
+
+resource "aws_lambda_event_source_mapping" "process_order_sqs_trigger" {
+  event_source_arn = aws_sqs_queue.event_driven_queue_lambda.arn
+  function_name    = aws_lambda_function.event_driven_process_order.arn
+  batch_size       = 1
+}
