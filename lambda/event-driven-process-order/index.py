@@ -32,13 +32,7 @@ def lambda_handler(event, context):
 
     except Exception as e:
         print(f"erro: {str(e)}")
-
-        return {
-            "statusCode": 500,
-            "body": json.dumps({
-                "message": "Internal server error"
-            })
-        }
+        raise e
 
 
 

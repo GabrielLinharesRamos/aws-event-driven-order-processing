@@ -8,19 +8,36 @@ from datetime import datetime
 client = boto3.client('sqs')
 
 def lambda_handler(event,context):
-    event_payload={
-        'id': str(uuid.uuid4()),
-        'payload': json.loads(event["body"]),
-        'eventType': 'OrderCreated',
-        'timestamp': datetime.utcnow().isoformat()
-    }
+    try:
 
-    event_payload_serialized = json.dumps(event_payload)
+        event_payload={
+            'id': str(uuid.uuid4()),
+            'payload': json.loads(event["body"]),
+            'eventType': 'OrderCreated',
+            'timestamp': datetime.utcnow().isoformat()
+        }
 
-    response = client.send_message(
-        QueueUrl='string',
-        MessageBody=event_payload_serialized,
-    )
+        event_payload_serialized = json.dumps(event_payload)
+
+        response = client.send_message(
+            QueueUrl='string',
+            MessageBody=event_payload_serialized,
+        )
+        
+        return {
+            'statusCode': 202,
+            'body': json.dumps('order Created')
+        }
+    
+    except Exception as e:
+        print(f"erro: {str(e)}")
+
+        return {
+            "statusCode": 500,
+            "body": json.dumps({
+                "message": "Internal server error"
+            })
+        }
 
 
 
