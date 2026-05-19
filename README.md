@@ -205,7 +205,7 @@ Também será adicionado abaixo um diagrama representando o fluxo completo de cr
 
 ---
 
-### Dia 12:(Tirar credenciais hardcoded, alterar o valor do package no diagrama do dia 6)
+### Dia 12:
 
 Concluí a refatoração dos módulos Terraform, removendo valores hardcoded e centralizando configurações via variáveis.
 Também implementei uma DLQ associada à fila SQS da Fase 2. Agora, mensagens que falharem três vezes consecutivas são encaminhadas para a DLQ para análise futura e possível reprocessamento com uma Lambda dedicada (que futuramente vai ser implementada).
