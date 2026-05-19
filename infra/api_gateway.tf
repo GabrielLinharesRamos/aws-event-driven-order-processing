@@ -1,11 +1,11 @@
 # lançando o api gateway
 resource "aws_apigatewayv2_api" "event_driven_api_gateway" {
-  name          = "event-driven-api"
+  name          = "${var.project_name}-api"
   protocol_type = "HTTP"
 
   tags = {
-    Environment = "dev"
-    Project     = "event-driven"
+    Environment = var.tag_Environment
+    Project     = var.tag_Project
   }
 }
 
@@ -30,6 +30,6 @@ resource "aws_apigatewayv2_route" "event_driven_api_routes" {
 # Criação do stage
 resource "aws_apigatewayv2_stage" "event_driven_api_stage" {
   api_id = aws_apigatewayv2_api.event_driven_api_gateway.id
-  name   = "dev"
+  name   = var.stage
   auto_deploy = true
 }

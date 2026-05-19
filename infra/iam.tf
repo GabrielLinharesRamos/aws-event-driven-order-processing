@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "assume_role" {
 
 # Criação do IAM role utilizando o Json assumeRole
 resource "aws_iam_role" "iam_lambda_producer" {
-  name               = "event-driven-create-order-role"
+  name               = "${var.project_name}-create-order-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
@@ -53,7 +53,7 @@ data "aws_iam_policy_document" "lambda_producer_permissions_policy_json" {
 
 #criação da permission policy do lambda_producer
 resource "aws_iam_policy" "lambda_producer_permissions_policy" {
-  name        = "event_driven_lambda_producer_policy"
+  name        = "${var.project_name}-lambda-producer-policy"
 
   policy      = data.aws_iam_policy_document.lambda_producer_permissions_policy_json.json
 }
@@ -79,7 +79,7 @@ resource "aws_lambda_permission" "lambda_producer_permission" {
 
 # Criação do IAM role utilizando o Json assumeRole
 resource "aws_iam_role" "iam_lambda_consumer" {
-  name               = "event-driven-process-order-role"
+  name               = "${var.project_name}-process-order-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
@@ -128,7 +128,7 @@ data "aws_iam_policy_document" "lambda_consumer_permissions_policy_json" {
 
 #criação da permission policy do lambda_consumer
 resource "aws_iam_policy" "lambda_consumer_permissions_policy" {
-  name        = "event_driven_lambda_consumer_policy"
+  name        = "${var.project_name}-lambda-consumer-policy"
 
   policy      = data.aws_iam_policy_document.lambda_consumer_permissions_policy_json.json
 }

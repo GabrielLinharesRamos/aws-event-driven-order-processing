@@ -1,11 +1,11 @@
 resource "aws_dynamodb_table" "event_driven_orders" {
-  name         = "event-driven-orders"
+  name         = "${var.project_name}-orders"
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "id"
 
   tags = {
-    Environment = "dev"
-    Project     = "event-driven"
+    Environment = var.tag_Environment
+    Project     = var.tag_Project
   }
 
   attribute {

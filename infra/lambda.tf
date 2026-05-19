@@ -10,7 +10,7 @@ data "archive_file" "package_producer" {
 # Função lambda producer
 resource "aws_lambda_function" "event_driven_create_order" {
   filename          = data.archive_file.package_producer.output_path
-  function_name     = "event-driven-create-order"
+  function_name     = "${var.project_name}-create-order"
   role              = aws_iam_role.iam_lambda_producer.arn
   handler           = "index.lambda_handler"
   source_code_hash  = data.archive_file.package_producer.output_base64sha256
@@ -18,8 +18,8 @@ resource "aws_lambda_function" "event_driven_create_order" {
   runtime = "python3.13"
 
   tags = {
-    Environment = "dev"
-    Project     = "event-driven"
+    Environment = var.tag_Environment
+    Project     = var.tag_Project
   }
 }
 
@@ -35,7 +35,7 @@ data "archive_file" "package_consumer" {
 # Função lambda consumer
 resource "aws_lambda_function" "event_driven_process_order" {
   filename          = data.archive_file.package_consumer.output_path
-  function_name     = "event-driven-process-order"
+  function_name     = "${var.project_name}-process-order"
   role              = aws_iam_role.iam_lambda_consumer.arn
   handler           = "index.lambda_handler"
   source_code_hash  = data.archive_file.package_consumer.output_base64sha256
@@ -43,7 +43,7 @@ resource "aws_lambda_function" "event_driven_process_order" {
   runtime = "python3.13"
 
   tags = {
-    Environment = "dev"
-    Project     = "event-driven"
+    Environment = var.tag_Environment
+    Project     = var.tag_Project
   }
 }

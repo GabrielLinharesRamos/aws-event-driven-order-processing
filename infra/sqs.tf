@@ -1,5 +1,5 @@
 resource "aws_sqs_queue" "event_driven_queue_lambda" {
-  name                      = "event-driven-queue-sqs"
+  name                      = "${var.project_name}-queue-sqs"
   delay_seconds             = 90
   max_message_size          = 2048
   message_retention_seconds = 86400
@@ -7,8 +7,8 @@ resource "aws_sqs_queue" "event_driven_queue_lambda" {
 
 
   tags = {
-    Environment = "dev"
-    Project     = "event-driven"
+    Environment = var.tag_Environment
+    Project     = var.tag_Project
   }
 }
 
