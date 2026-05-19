@@ -183,7 +183,7 @@ Como próximo passo, será criada uma Consumer Lambda responsável por consumir 
 
 Também foram adicionadas as permissões IAM necessárias para permitir que a Lambda publique mensagens no SQS.
 
-### Dia 10: (Criar a lambda consumer e Tirar credenciais hardcoded, alterar o valor do package no diagrama do dia 6)
+### Dia 10:
 
 Realizei melhorias na documentação do projeto, adicionando novas seções ao README, como arquitetura da solução, tecnologias utilizadas e estrutura de diretórios, com o objetivo de tornar a evolução do sistema mais clara e organizada.
 
