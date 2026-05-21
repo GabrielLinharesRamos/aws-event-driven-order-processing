@@ -226,4 +226,4 @@ Também foram executados testes de resiliência e tolerância a falhas, incluind
 
 ---
 
-### Dia 14:(entender o problema do return no DLQ)
+### Dia 14:
