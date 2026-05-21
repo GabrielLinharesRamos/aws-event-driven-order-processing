@@ -6,7 +6,7 @@ Um sistema de processamento de pedidos orientado a eventos construído com AWS L
 
 ---
 
-![phase_1_diagram.drawio.svg](/diagrams/phase_1_diagram.drawio.svg)
+![phase_3_diagram.drawio.svg](/diagrams/phase_3_diagram.drawio.svg)
 
 # Tecnologias utilizadas
 
@@ -205,6 +205,10 @@ Também será adicionado abaixo um diagrama representando o fluxo completo de cr
 
 ---
 
+### Diagrama Fase 3:
+
+![phase_3_diagram.drawio.svg](/diagrams/phase_3_diagram.drawio.svg)
+
 ### Dia 12:
 
 Concluí a refatoração dos módulos Terraform, removendo valores hardcoded e centralizando configurações via variáveis.
@@ -212,4 +216,14 @@ Também implementei uma DLQ associada à fila SQS da Fase 2. Agora, mensagens qu
 
 O limite de três tentativas foi definido propositalmente para facilitar testes no contexto de um projeto de portfólio.
 
-### Dia 13: (entender o problema do return no DLQ)
+### Dia 13:
+
+Como a Fase 3 está praticamente concluída, foi realizada uma etapa de revisão e estabilização da aplicação, com foco na identificação de bugs, remoção de dados hardcoded e refinamento geral da infraestrutura e do código.
+
+Também foram executados testes de resiliência e tolerância a falhas, incluindo falhas simuladas na arquitetura assíncrona, validação do mecanismo de retry, análise de logs no CloudWatch e verificação do fluxo de Dead Letter Queue (DLQ), garantindo que o sistema operasse conforme os objetivos arquiteturais definidos para o projeto.
+
+# Fase 4 - Observabilidade e Idempotência
+
+---
+
+### Dia 14:(entender o problema do return no DLQ)

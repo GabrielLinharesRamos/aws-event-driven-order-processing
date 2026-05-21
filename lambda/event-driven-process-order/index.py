@@ -17,6 +17,11 @@ def lambda_handler(event, context):
 
             order_event = json.loads(record["body"])
 
+            #testes (comentar)
+            # if order_event["payload"]["product"] == "fail":
+            #     raise Exception("Falha simulada")
+            #fim do teste
+
             table.put_item(
                 Item={
                     'id': order_event["id"],
