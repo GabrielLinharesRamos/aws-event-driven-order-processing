@@ -17,6 +17,13 @@ resource "aws_lambda_function" "event_driven_create_order" {
 
   runtime = "python3.13"
 
+  # variaveis de ambiente
+  environment {
+    variables = {
+      QUEUE_URL = aws_sqs_queue.event_driven_queue_lambda.url
+    }
+  }
+
   tags = {
     Environment = var.tag_Environment
     Project     = var.tag_Project
@@ -41,6 +48,13 @@ resource "aws_lambda_function" "event_driven_process_order" {
   source_code_hash  = data.archive_file.package_consumer.output_base64sha256
 
   runtime = "python3.13"
+
+  # variaveis de ambiente
+  environment {
+    variables = {
+      ORDERS_TABLE = aws_dynamodb_table.event_driven_orders.name
+    }
+  }
 
   tags = {
     Environment = var.tag_Environment

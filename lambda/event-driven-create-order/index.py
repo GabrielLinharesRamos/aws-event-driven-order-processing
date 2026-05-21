@@ -2,6 +2,7 @@ import json
 import uuid
 import boto3
 from datetime import datetime
+import os
 
 # logica para mandar para o sqs
 
@@ -20,7 +21,7 @@ def lambda_handler(event,context):
         event_payload_serialized = json.dumps(event_payload)
 
         response = client.send_message(
-            QueueUrl='string',
+            QueueUrl=os.environ["QUEUE_URL"],
             MessageBody=event_payload_serialized,
         )
         

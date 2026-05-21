@@ -14,7 +14,13 @@ variable "stage" {
   default     = "dev"
 }
 
-#sqs
+#dynamoDB
+
+variable "orders_table" {
+  description = "nome da tabela do dynamoDB"
+  type        = string
+  default     = "event-driven-orders"
+}
 
 #aws_region
 

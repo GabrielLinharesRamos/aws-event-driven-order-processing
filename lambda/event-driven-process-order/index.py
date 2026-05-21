@@ -2,13 +2,14 @@ import json
 import uuid
 import boto3
 from datetime import datetime
+import os
 
 
 # logica para salvar no dynamoDB
 
 dynamo = boto3.resource('dynamodb')
 
-table = dynamo.Table('event-driven-orders')
+table = dynamo.Table(os.environ["ORDERS_TABLE"])
 
 def lambda_handler(event, context):
     try:
