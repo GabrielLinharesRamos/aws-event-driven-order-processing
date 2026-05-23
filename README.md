@@ -226,4 +226,11 @@ Também foram executados testes de resiliência e tolerância a falhas, incluind
 
 ---
 
-### Dia 14:
+## Dia 14:
+
+Foram realizadas as seguintes séries de implementações:
+
+- Implementação de idempotência na Lambda consumer utilizando DynamoDB conditional writes
+- Criação de um padrão de logs estruturados
+- Adição de logs de sucesso e erro na producer e consumer
+- Adição de logs específicos para eventos duplicados

@@ -37,6 +37,13 @@ def lambda_handler(event, context):
                 ConditionExpression="attribute_not_exists(id)",
             )
 
+            logger.info({
+                "message": "message processed",
+                "event_id": order_event["id"],
+                "event_type": order_event["eventType"],
+                "status": "accepted"
+            })
+
         return {
             'statusCode': 202,
             'body': json.dumps('order Accepted')
@@ -56,7 +63,7 @@ def lambda_handler(event, context):
             "event_id": order_event["id"],
             "event_type": order_event["eventType"],
             "status": "failed",
-            "erro": str(e)
+            "error": str(e)
         })
         raise e
 
