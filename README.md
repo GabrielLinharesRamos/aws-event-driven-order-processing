@@ -234,3 +234,22 @@ Foram realizadas as seguintes séries de implementações:
 - Criação de um padrão de logs estruturados
 - Adição de logs de sucesso e erro na producer e consumer
 - Adição de logs específicos para eventos duplicados
+
+### Dia 15:
+
+O desenvolvimento de hoje foi focado em observabilidade e monitoramento da aplicação.
+
+Foram criados dois novos arquivos Terraform: `cloudwatch.tf`, responsável pela definição dos alarmes, e `dashboard.tf`, responsável pela criação do dashboard de monitoramento.
+
+Também foram implementados três alarmes no CloudWatch:
+
+- Alarme para erros na Lambda Producer;
+- Alarme para erros na Lambda Consumer;
+- Alarme para mensagens encaminhadas para a Dead Letter Queue (DLQ).
+
+Além dos alarmes, foi criado um dashboard centralizado para acompanhar o comportamento da aplicação em tempo real, contendo métricas de:
+
+- Invocations das Lambdas;
+- Errors das Lambdas;
+- Duration das Lambdas;
+- Quantidade de mensagens presentes na DLQ.
