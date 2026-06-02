@@ -1,3 +1,4 @@
+#SQS
 resource "aws_sqs_queue" "event_driven_queue_lambda" {
   name                      = "${var.project_name}-orders-queue-sqs"
   delay_seconds             = 90
@@ -16,6 +17,7 @@ resource "aws_sqs_queue" "event_driven_queue_lambda" {
   }
 }
 
+#DLQ
 resource "aws_sqs_queue" "deadletter" {
   name = "${var.project_name}-orders-deadletter-queue"
 
