@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - main
+
+    paths-ignore:
+      - README.md
+      - 'diagrams/**'
+
+jobs:
+  terraform-validation:
+    runs-on: ubuntu-latest
+
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+
+      - run: terraform init
+
+      - run: terraform fmt -check
+
+      - run: terraform validate
+
+      - run: terraform plan
