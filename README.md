@@ -253,3 +253,13 @@ Além dos alarmes, foi criado um dashboard centralizado para acompanhar o compor
 - Errors das Lambdas;
 - Duration das Lambdas;
 - Quantidade de mensagens presentes na DLQ.
+
+### Dia 16:
+
+Embora o escopo original do projeto tenha sido concluído com a implementação de arquitetura orientada a eventos, idempotência, DLQ e observabilidade, decidi adicionar uma etapa extra de CI/CD para tornar a solução mais próxima de um ambiente real de produção.
+
+Durante o dia de hoje iniciei a integração entre GitHub Actions e AWS utilizando autenticação federada via OIDC (OpenID Connect), eliminando a necessidade de armazenar credenciais permanentes da AWS no repositório.
+
+Também foi criado o workflow inicial do GitHub Actions responsável por executar validações da infraestrutura Terraform, incluindo etapas de inicialização, formatação, validação e planejamento das alterações.
+
+No lado da AWS, foi iniciada a configuração de identidade federada através de um OIDC Provider e de uma IAM Role dedicada ao GitHub Actions. A trust policy foi configurada para permitir que apenas workflows executados a partir do repositório `aws-event-driven-order-processing`, na branch `main`, possam assumir a role e interagir com a infraestrutura da conta AWS.

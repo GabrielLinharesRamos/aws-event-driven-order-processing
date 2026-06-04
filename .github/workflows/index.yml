@@ -17,6 +17,8 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v3
 
+      - run: aws sts get-caller-identity
+
       - run: terraform init
 
       - run: terraform fmt -check
