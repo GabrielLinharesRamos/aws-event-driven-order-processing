@@ -254,6 +254,10 @@ Além dos alarmes, foi criado um dashboard centralizado para acompanhar o compor
 - Duration das Lambdas;
 - Quantidade de mensagens presentes na DLQ.
 
+# Fase 5 - GitHub Actions (CI/CD)
+
+---
+
 ### Dia 16:
 
 Embora o escopo original do projeto tenha sido concluído com a implementação de arquitetura orientada a eventos, idempotência, DLQ e observabilidade, decidi adicionar uma etapa extra de CI/CD para tornar a solução mais próxima de um ambiente real de produção.
