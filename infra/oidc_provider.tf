@@ -45,39 +45,35 @@ resource "aws_iam_role" "oicd_role" {
   assume_role_policy = data.aws_iam_policy_document.github_actions_assume_role.json
 }
 
-#até aqui tudo certo
-
-# Criação do json que especifica a policy do que o lambda_producer pode fazer
-data "aws_iam_policy_document" "lambda_producer_permissions_policy_json" {
+# Criação do json que especifica a policy do que o oicd pode fazer
+data "aws_iam_policy_document" "oicd_permissions_policy_json" {
 
   statement {
     effect = "Allow"
 
     actions = [
-      "logs:CreateLogGroup",
-      "logs:CreateLogStream",
-      "logs:PutLogEvents"
+        "lambda:*",
+        "sqs:*",
+        "dynamodb:*",
+        "cloudwatch:*",
+        "logs:*",
+        "apigateway:*",
+        "iam:*"
     ]
 
     resources = ["*"]
   }
+}
 
+#criação da permission policy do oicd
+resource "aws_iam_policy" "oicd_permissions_policy" {
+  name        = "${var.project_name}-oicd-policy"
 
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "sqs:SendMessage"
-    ]
-
-    resources = [
-      aws_sqs_queue.event_driven_queue_lambda.arn,
-      ]
-  }
+  policy      = data.aws_iam_policy_document.oicd_permissions_policy_json.json
 }
 
 #conexão da permission policy na role
-resource "aws_iam_role_policy_attachment" "lambda_producer_attachment" {
-  role        = aws_iam_role.iam_lambda_producer.name
-  policy_arn  = aws_iam_policy.lambda_producer_permissions_policy.arn
+resource "aws_iam_role_policy_attachment" "oicd_attachment" {
+  role        = aws_iam_role.oicd_role.name
+  policy_arn  = aws_iam_policy.oicd_permissions_policy.arn
 }
