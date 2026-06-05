@@ -47,21 +47,21 @@ data "aws_iam_policy_document" "lambda_producer_permissions_policy_json" {
 
     resources = [
       aws_sqs_queue.event_driven_queue_lambda.arn,
-      ]
+    ]
   }
 }
 
 #criação da permission policy do lambda_producer
 resource "aws_iam_policy" "lambda_producer_permissions_policy" {
-  name        = "${var.project_name}-lambda-producer-policy"
+  name = "${var.project_name}-lambda-producer-policy"
 
-  policy      = data.aws_iam_policy_document.lambda_producer_permissions_policy_json.json
+  policy = data.aws_iam_policy_document.lambda_producer_permissions_policy_json.json
 }
 
 #conexão da permission policy na role
 resource "aws_iam_role_policy_attachment" "lambda_producer_attachment" {
-  role        = aws_iam_role.iam_lambda_producer.name
-  policy_arn  = aws_iam_policy.lambda_producer_permissions_policy.arn
+  role       = aws_iam_role.iam_lambda_producer.name
+  policy_arn = aws_iam_policy.lambda_producer_permissions_policy.arn
 }
 
 # permissão para o API Gateway chamar o lambda
@@ -122,19 +122,19 @@ data "aws_iam_policy_document" "lambda_consumer_permissions_policy_json" {
 
     resources = [
       aws_sqs_queue.event_driven_queue_lambda.arn,
-      ]
+    ]
   }
 }
 
 #criação da permission policy do lambda_consumer
 resource "aws_iam_policy" "lambda_consumer_permissions_policy" {
-  name        = "${var.project_name}-lambda-consumer-policy"
+  name = "${var.project_name}-lambda-consumer-policy"
 
-  policy      = data.aws_iam_policy_document.lambda_consumer_permissions_policy_json.json
+  policy = data.aws_iam_policy_document.lambda_consumer_permissions_policy_json.json
 }
 
 #conexão da permission policy na role
 resource "aws_iam_role_policy_attachment" "lambda_consumer_attachment" {
-  role        = aws_iam_role.iam_lambda_consumer.name
-  policy_arn  = aws_iam_policy.lambda_consumer_permissions_policy.arn
+  role       = aws_iam_role.iam_lambda_consumer.name
+  policy_arn = aws_iam_policy.lambda_consumer_permissions_policy.arn
 }

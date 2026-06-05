@@ -10,21 +10,21 @@ data "aws_iam_policy_document" "github_actions_assume_role" {
     }
 
     condition {
-        test     = "StringEquals"
-        variable = "token.actions.githubusercontent.com:aud"
+      test     = "StringEquals"
+      variable = "token.actions.githubusercontent.com:aud"
 
-        values = [
-            "sts.amazonaws.com"
-        ]
+      values = [
+        "sts.amazonaws.com"
+      ]
     }
 
     condition {
-        test     = "StringEquals"
-        variable = "token.actions.githubusercontent.com:sub"
+      test     = "StringEquals"
+      variable = "token.actions.githubusercontent.com:sub"
 
-        values = [
-            "repo:GabrielLinharesRamos/aws-event-driven-order-processing:ref:refs/heads/main"
-        ]
+      values = [
+        "repo:GabrielLinharesRamos/aws-event-driven-order-processing:ref:refs/heads/main"
+      ]
     }
 
     actions = ["sts:AssumeRoleWithWebIdentity"] #diferente de assumeRole por que o mecanismo de autenticação para federação é diferente
@@ -52,13 +52,13 @@ data "aws_iam_policy_document" "oicd_permissions_policy_json" {
     effect = "Allow"
 
     actions = [
-        "lambda:*",
-        "sqs:*",
-        "dynamodb:*",
-        "cloudwatch:*",
-        "logs:*",
-        "apigateway:*",
-        "iam:*"
+      "lambda:*",
+      "sqs:*",
+      "dynamodb:*",
+      "cloudwatch:*",
+      "logs:*",
+      "apigateway:*",
+      "iam:*"
     ]
 
     resources = ["*"]
@@ -67,13 +67,13 @@ data "aws_iam_policy_document" "oicd_permissions_policy_json" {
 
 #criação da permission policy do oicd
 resource "aws_iam_policy" "oicd_permissions_policy" {
-  name        = "${var.project_name}-oicd-policy"
+  name = "${var.project_name}-oicd-policy"
 
-  policy      = data.aws_iam_policy_document.oicd_permissions_policy_json.json
+  policy = data.aws_iam_policy_document.oicd_permissions_policy_json.json
 }
 
 #conexão da permission policy na role
 resource "aws_iam_role_policy_attachment" "oicd_attachment" {
-  role        = aws_iam_role.oicd_role.name
-  policy_arn  = aws_iam_policy.oicd_permissions_policy.arn
+  role       = aws_iam_role.oicd_role.name
+  policy_arn = aws_iam_policy.oicd_permissions_policy.arn
 }
