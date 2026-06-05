@@ -11,18 +11,31 @@ jobs:
   terraform-validation:
     runs-on: ubuntu-latest
 
+    permissions:
+      id-token: write # Obrigatório para o OIDC funcionar
+      contents: read  # Permite que o checkout leia o código do repositório
+
 
     steps:
-      - uses: actions/checkout@v4
+      - name: deploying machine
+        uses: actions/checkout@v4
 
-      - uses: hashicorp/setup-terraform@v3
+      - name: Configuring AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/nome-da-sua-role # trocar para funcionar dinamicamente
+          aws-region: sa-east-1 # trocar para funcionar dinamicamente
 
-      - run: aws sts get-caller-identity
+      - name: Configuring Terraform
+        uses: hashicorp/setup-terraform@v3
 
-      - run: terraform init
+      - name: Testing AWS connection
+        run: aws sts get-caller-identity
 
-      - run: terraform fmt -check
-
-      - run: terraform validate
-
-      - run: terraform plan
+      - name: deploying AWS
+        run: |
+          terraform init
+          terraform fmt -check
+          terraform validate
+          terraform plan
+          terraform apply -auto-approve
