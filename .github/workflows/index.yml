@@ -23,7 +23,7 @@ jobs:
       - name: Configuring AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::123456789012:role/nome-da-sua-role # trocar para funcionar dinamicamente
+          role-to-assume: arn:aws:iam::341208406073:role/event-driven-oicd-role # trocar para funcionar dinamicamente
           aws-region: sa-east-1 # trocar para funcionar dinamicamente
 
       - name: Configuring Terraform
