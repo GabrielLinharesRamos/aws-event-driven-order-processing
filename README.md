@@ -254,7 +254,7 @@ Além dos alarmes, foi criado um dashboard centralizado para acompanhar o compor
 - Duration das Lambdas;
 - Quantidade de mensagens presentes na DLQ.
 
-# Fase 5 - GitHub Actions (CI/CD) 
+# Fase 5 - GitHub Actions (CI/CD)
 
 ---
 
