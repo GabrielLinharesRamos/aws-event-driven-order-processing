@@ -33,6 +33,7 @@ jobs:
         run: aws sts get-caller-identity
 
       - name: deploying AWS
+        working-directory: ./infra
         run: |
           terraform init
           terraform fmt -check
