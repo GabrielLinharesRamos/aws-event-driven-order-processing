@@ -1,6 +1,6 @@
 # Event-driven
 
-Um sistema de processamento de pedidos orientado a eventos construído com AWS Lambda, Terraform, DynamoDB e API Gateway. Atualmente evoluindo de uma arquitetura síncrona para um sistema resiliente orientado a eventos, com SQS/DLQ, idempotência e observabilidade com CloudWatch.
+Sistema de processamento de pedidos baseado em arquitetura orientada a eventos na AWS, utilizando Lambda, SQS, DynamoDB e API Gateway. Implementado com Terraform e GitHub Actions, conta com processamento assíncrono, DLQ para tolerância a falhas, controle de idempotência e observabilidade através do CloudWatch (Logs, Metrics, Dashboards e Alarms), visando escalabilidade, resiliência e desacoplamento entre serviços.
 
 # Arquitetura
 
@@ -17,6 +17,8 @@ Um sistema de processamento de pedidos orientado a eventos construído com AWS L
 - SQS queue
 - API Gateway
 - DynamoDB
+- GitHub Actions (CI/CD e OIDC)
+- CloudWatch
 - Python
 
 # Estrutura do Projeto
@@ -27,6 +29,10 @@ Um sistema de processamento de pedidos orientado a eventos construído com AWS L
 event-driven-project/
 │
 ├── diagrams/
+│
+├── github/
+│   └── workflows/
+│       └── deploy.yml       → deploy automatizado com autenticação OIDC
 │ 
 ├── infra/
 │   │
@@ -34,11 +40,14 @@ event-driven-project/
 │   ├── dynamodb.tf         → criação da tabela DynamoDB
 │   ├── iam.tf              → roles e permissões IAM
 │   ├── lambda.tf           → definição das funções Lambda
-│   ├── outputs.tf
+│   ├── outputs.tf          → mostra o endpoint após um apply
 │   ├── provider.tf         → configura o provider da AWS
 |   ├── sqs.tf              → configuração do SQS
 |   ├── variables.tf        → declaração de variáveis reutilizáveis
-|   └── versions.tf         → especificações de versões compativeis do projeto
+|   ├── versions.tf         → especificações de versões compativeis do projeto
+|   ├── cloudwatch.tf       → observabilidade do sistema
+|   └── dashboard.tf        → criação de dashboard baseado em metricas
+|
 │
 ├── lambda/
 │   ├── event-driven-create-order/
@@ -65,7 +74,13 @@ Antes de começar, você precisa ter instalado:
 Também é necessário possuir:
 
 - Conta AWS
-- Usuário IAM configurado
+- Usuário IAM com permissões para criar:
+    - Lambda
+    - API Gateway
+    - SQS
+    - DynamoDB
+    - CloudWatch
+    - IAM
 
 ---
 
@@ -92,12 +107,20 @@ Default output format
 
 ```
 git clone https://github.com/GabrielLinharesRamos/aws-event-driven-order-processing.git
-cd event-driven
+cd aws-event-driven-order-processing
 ```
 
 ---
 
 ## Inicializando o Terraform
+
+caso o terminal esteja na pasta raiz do projeto:
+
+```
+cd infra
+```
+
+seguido de:
 
 ```
 terraform init
@@ -144,9 +167,13 @@ Após o deploy, o Terraform retornará a URL da API.
 Exemplo:
 
 ```
-curl-X POST https://api-id.execute-api.region.amazonaws.com/dev/items
-
-MUDAR AQUI
+curl -X POST "https://vj2qc3jcm9.execute-api.sa-east-1.amazonaws.com/dev/orders" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "items": [
+      "produto-1"
+    ]
+  }'
 ```
 
 ---
@@ -159,7 +186,28 @@ Para remover todos os recursos criados:
 terraform destroy
 ```
 
+depois:
+
+```
+yes
+```
+
 ---
+
+## CI/CD
+
+O projeto utiliza GitHub Actions com autenticação federada via OIDC para realizar deploy automatizado da infraestrutura na AWS.
+
+### Utilizando o pipeline em um fork
+
+Para utilizar o pipeline CI/CD em um fork do projeto, será necessário:
+
+- Atualizar a variável `github_repo` no arquivo `variables.tf` para refletir o novo repositório.
+- Executar pelo menos um `terraform apply` localmente para criar o OIDC Provider, IAM Role e demais recursos necessários para o pipeline.
+- Configurar o Secret `AWS_ROLE_ARN` no GitHub Actions com o ARN da role criada para o OIDC.
+- Configurar a Variable `AWS_REGION` no GitHub Actions com a região AWS utilizada pelo projeto.
+
+Após essa configuração, os deploys poderão ser executados automaticamente através do GitHub Actions.
 
 # DEVLOG
 
@@ -378,3 +426,21 @@ Durante o dia de hoje iniciei a integração entre GitHub Actions e AWS utilizan
 Também foi criado o workflow inicial do GitHub Actions responsável por executar validações da infraestrutura Terraform, incluindo etapas de inicialização, formatação, validação e planejamento das alterações.
 
 No lado da AWS, foi iniciada a configuração de identidade federada através de um OIDC Provider e de uma IAM Role dedicada ao GitHub Actions. A trust policy foi configurada para permitir que apenas workflows executados a partir do repositório `aws-event-driven-order-processing`, na branch `main`, possam assumir a role e interagir com a infraestrutura da conta AWS.
+
+### Dia 17:
+
+Foram realizadas as seguintes séries de implementações:
+
+- Configuração do OIDC Provider e das permissões de IAM necessárias no Terraform, sem a necessidade do uso de chaves estáticas de acesso (`Access Keys`).
+- finalização do pipeline em YAML (`deploy.yml`) para automatizar os testes de validação, formatação (`fmt`), planejamento (`plan`) e o deploy automatizado (`apply`) diretamente na branch `main`.
+- O ARN da Role de deploy agora é injetado dinamicamente via `${{ secrets.AWS_ROLE_ARN }}`, eliminando a exposição do ID da conta AWS no repositório.
+- Centralização da região da AWS no **GitHub Variables** (`${{ vars.AWS_REGION }}`), tornando o workflow do YAML mais limpo, dinâmico e fácil de manter.
+- Concluída a integração entre GitHub Actions e AWS utilizando autenticação **OIDC (OpenID Connect)**.
+
+# Possíveis Evoluções
+
+---
+
+- Testes automatizados (Pytests)
+- Reprocessamento da DLQ
+- modificar as lambdas para criar uma validação de campos recebidos no corpo da requisição e uma padronização quando for salvar no dynamoDB
