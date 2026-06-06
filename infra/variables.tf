@@ -6,6 +6,17 @@ variable "project_name" {
   default     = "event-driven"
 }
 
+# repositório do GitHub que tem permissão para assumir a função OIDC.
+
+variable "github_allowed_repo_and_branch" {
+  description = "O repositório GitHub que tem permissão para assumir a função OIDC."
+  type        = string
+
+  # caso queira testar em um fork altere aqui
+  default     = "repo:GabrielLinharesRamos/aws-event-driven-order-processing:ref:refs/heads/main"
+}
+
+
 #api_gateway
 
 variable "stage" {

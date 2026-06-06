@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "github_actions_assume_role" {
       variable = "token.actions.githubusercontent.com:sub"
 
       values = [
-        "repo:GabrielLinharesRamos/aws-event-driven-order-processing:ref:refs/heads/main"
+        var.github_allowed_repo_and_branch
       ]
     }
 
@@ -40,13 +40,13 @@ resource "aws_iam_openid_connect_provider" "github" {
 }
 
 # Criação do IAM role utilizando o Json assumeRole
-resource "aws_iam_role" "oicd_role" {
-  name               = "${var.project_name}-oicd-role"
+resource "aws_iam_role" "oidc_role" {
+  name               = "${var.project_name}-oidc-role"
   assume_role_policy = data.aws_iam_policy_document.github_actions_assume_role.json
 }
 
-# Criação do json que especifica a policy do que o oicd pode fazer
-data "aws_iam_policy_document" "oicd_permissions_policy_json" {
+# Criação do json que especifica a policy do que o oidc pode fazer
+data "aws_iam_policy_document" "oidc_permissions_policy_json" {
 
   statement {
     effect = "Allow"
@@ -65,15 +65,15 @@ data "aws_iam_policy_document" "oicd_permissions_policy_json" {
   }
 }
 
-#criação da permission policy do oicd
-resource "aws_iam_policy" "oicd_permissions_policy" {
-  name = "${var.project_name}-oicd-policy"
+#criação da permission policy do oidc
+resource "aws_iam_policy" "oidc_permissions_policy" {
+  name = "${var.project_name}-oidc-policy"
 
-  policy = data.aws_iam_policy_document.oicd_permissions_policy_json.json
+  policy = data.aws_iam_policy_document.oidc_permissions_policy_json.json
 }
 
 #conexão da permission policy na role
-resource "aws_iam_role_policy_attachment" "oicd_attachment" {
-  role       = aws_iam_role.oicd_role.name
-  policy_arn = aws_iam_policy.oicd_permissions_policy.arn
+resource "aws_iam_role_policy_attachment" "oidc_attachment" {
+  role       = aws_iam_role.oidc_role.name
+  policy_arn = aws_iam_policy.oidc_permissions_policy.arn
 }
