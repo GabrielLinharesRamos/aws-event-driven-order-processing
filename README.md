@@ -161,8 +161,6 @@ terraform destroy
 
 ---
 
-# Daqui pra cima tenho que colocar no readme ainda mas primeiro tenho que ajeitar
-
 # DEVLOG
 
 ---
