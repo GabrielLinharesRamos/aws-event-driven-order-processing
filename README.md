@@ -50,7 +50,122 @@ event-driven-project/
 └── README.md
 ```
 
-## DEVLOG
+# Como executar o projeto
+
+---
+
+## Pré-requisitos
+
+Antes de começar, você precisa ter instalado:
+
+- Terraform
+- AWS CLI
+- Git
+
+Também é necessário possuir:
+
+- Conta AWS
+- Usuário IAM configurado
+
+---
+
+## Configurando credenciais AWS
+
+Configure suas credenciais usando:
+
+```
+aws configure
+```
+
+Informe:
+
+```
+AWS Access Key ID
+AWS Secret Access Key
+Default region
+Default output format
+```
+
+---
+
+## Clonando o projeto
+
+```
+git clone https://github.com/GabrielLinharesRamos/aws-event-driven-order-processing.git
+cd event-driven
+```
+
+---
+
+## Inicializando o Terraform
+
+```
+terraform init
+```
+
+---
+
+## Validando infraestrutura
+
+```
+terraform validate
+```
+
+---
+
+## Visualizando plano de execução
+
+```
+terraform plan
+```
+
+---
+
+## Criando infraestrutura
+
+```
+terraform apply
+```
+
+Digite:
+
+```
+yes
+```
+
+ao ser solicitado.
+
+---
+
+## Testando a API
+
+Após o deploy, o Terraform retornará a URL da API.
+
+Exemplo:
+
+```
+curl-X POST https://api-id.execute-api.region.amazonaws.com/dev/items
+
+MUDAR AQUI
+```
+
+---
+
+## Destruindo infraestrutura
+
+Para remover todos os recursos criados:
+
+```
+terraform destroy
+```
+
+---
+
+# Daqui pra cima tenho que colocar no readme ainda mas primeiro tenho que ajeitar
+
+# DEVLOG
+
+---
 
 O projeto será desenvolvido de forma incremental:
 
@@ -71,7 +186,7 @@ Implementei, utilizando o console, o primeiro protótipo do que será o sistema.
 
 Além disso, criei a primeira função Lambda, que será responsável por criar pedidos e salvá-los na tabela do DynamoDB mencionada anteriormente.
 
-Optei por usar o prefixo `event-driven` em todos os serviços relacionados a este projeto e `event_driven` em todas as variáveis e no código, além de duas tags (enviroment:dev e project:event-driven), para melhor organização.
+Optei por usar o prefixo `event-driven` em todos os serviços relacionados a este projeto e `event_driven` em todas as variáveis e no código, além de duas tags (environment:dev e project:event-driven), para melhor organização.
 
 ### Dia 2:
 
@@ -199,8 +314,6 @@ finalizei o desenvolvimento da função **Consumer**, concluindo oficialmente a 
 
 Além da implementação da função, também aprofundei meus estudos sobre o problema de valores **hardcoded** em infraestrutura como código. Como parte dessa melhoria, iniciei o processo de refatoração dos blocos Terraform, centralizando configurações em um arquivo `variables.tf` para tornar a infraestrutura mais reutilizável, organizada e fácil de manter.
 
-Também será adicionado abaixo um diagrama representando o fluxo completo de criação e consumo de eventos desta fase do projeto.
-
 # Fase 3 - Resiliência e tolerância a falhas
 
 ---
@@ -226,7 +339,7 @@ Também foram executados testes de resiliência e tolerância a falhas, incluind
 
 ---
 
-## Dia 14:
+### Dia 14:
 
 Foram realizadas as seguintes séries de implementações:
 
@@ -254,7 +367,7 @@ Além dos alarmes, foi criado um dashboard centralizado para acompanhar o compor
 - Duration das Lambdas;
 - Quantidade de mensagens presentes na DLQ.
 
-# Fase 5 - GitHub Actions (CI/CD) 
+# Fase 5 - GitHub Actions (CI/CD)
 
 ---
 
