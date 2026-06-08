@@ -7,4 +7,11 @@ terraform {
   }
 
   required_version = ">= 1.2"
+
+  # tfstate para automatizar o deploy
+  backend "s3" {
+    bucket = "event-driven-terraform-state-gabriel-linhares"
+    key    = "terraform.tfstate"
+    region = "sa-east-1"
+  }
 }

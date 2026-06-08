@@ -77,3 +77,8 @@ resource "aws_iam_role_policy_attachment" "oidc_attachment" {
   role       = aws_iam_role.oidc_role.name
   policy_arn = aws_iam_policy.oidc_permissions_policy.arn
 }
+
+#tfstate para deploy automatico
+resource "aws_s3_bucket" "terraform_state" {
+  bucket = "event-driven-terraform-state-gabriel-linhares"
+}
