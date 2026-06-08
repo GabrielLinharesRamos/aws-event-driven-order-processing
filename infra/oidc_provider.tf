@@ -58,7 +58,8 @@ data "aws_iam_policy_document" "oidc_permissions_policy_json" {
       "cloudwatch:*",
       "logs:*",
       "apigateway:*",
-      "iam:*"
+      "iam:*",
+      "s3:*" 
     ]
 
     resources = ["*"]
