@@ -13,7 +13,7 @@ variable "github_allowed_repo_and_branch" {
   type        = string
 
   # caso queira testar em um fork altere aqui
-  default     = "repo:GabrielLinharesRamos/aws-event-driven-order-processing:ref:refs/heads/main"
+  default = "repo:GabrielLinharesRamos/aws-event-driven-order-processing:ref:refs/heads/main"
 }
 
 
@@ -22,7 +22,7 @@ variable "github_allowed_repo_and_branch" {
 variable "stage" {
   description = "nome do stage da api gateway"
   type        = string
-  default     = "dev" 
+  default     = "dev"
 }
 
 #dynamoDB

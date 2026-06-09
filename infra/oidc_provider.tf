@@ -59,7 +59,7 @@ data "aws_iam_policy_document" "oidc_permissions_policy_json" {
       "logs:*",
       "apigateway:*",
       "iam:*",
-      "s3:*" 
+      "s3:*"
     ]
 
     resources = ["*"]
