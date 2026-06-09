@@ -206,6 +206,7 @@ Para utilizar o pipeline CI/CD em um fork do projeto, será necessário:
 - Executar pelo menos um `terraform apply` localmente para criar o OIDC Provider, IAM Role e demais recursos necessários para o pipeline.
 - Configurar o Secret `AWS_ROLE_ARN` no GitHub Actions com o ARN da role criada para o OIDC.
 - Configurar a Variable `AWS_REGION` no GitHub Actions com a região AWS utilizada pelo projeto.
+- Atualizar a configuração do backend S3 caso deseje utilizar um bucket diferente para o `terraform.tfstate`.
 
 Após essa configuração, os deploys poderão ser executados automaticamente através do GitHub Actions.
 
@@ -436,6 +437,11 @@ Foram realizadas as seguintes séries de implementações:
 - O ARN da Role de deploy agora é injetado dinamicamente via `${{ secrets.AWS_ROLE_ARN }}`, eliminando a exposição do ID da conta AWS no repositório.
 - Centralização da região da AWS no **GitHub Variables** (`${{ vars.AWS_REGION }}`), tornando o workflow do YAML mais limpo, dinâmico e fácil de manter.
 - Concluída a integração entre GitHub Actions e AWS utilizando autenticação **OIDC (OpenID Connect)**.
+- Implementação de um backend remoto no Amazon S3 para armazenamento centralizado do arquivo `terraform.tfstate`, eliminando a dependência de state local e permitindo o compartilhamento consistente da infraestrutura entre diferentes ambientes.
+- Criação e configuração de um bucket S3 dedicado ao gerenciamento do estado do Terraform, incluindo a migração do state local para o backend remoto.
+- Ajuste das permissões da IAM Role utilizada pelo GitHub Actions para permitir acesso seguro ao backend remoto, possibilitando operações de leitura e escrita do state durante os deploys automatizados.
+- Integração do pipeline CI/CD com o backend remoto do Terraform, garantindo que execuções locais e automatizadas utilizem a mesma fonte de verdade da infraestrutura.
+- Validação e correção do fluxo completo envolvendo GitHub Actions, autenticação federada via OIDC, backend S3 e execução automatizada dos comandos `init`, `fmt`, `validate`, `plan` e `apply`.
 
 # Possíveis Evoluções
 
